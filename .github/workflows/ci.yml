@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  installcheck:
+    runs-on: ubuntu-latest
+    container:
+      image: postgres:latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: testdb
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Prepare PostgreSQL
+      run: |
+        mkdir -p $PGDATA
+        chown postgres $PGDATA
+        su postgres -c "initdb"
+        su postgres -c "pg_ctl start -D $PGDATA"
+    
+    - name: Install dependencies
+      run: |
+        apt update -y
+        apt install -y make
+    
+    - name: Build and run tests
+      run: |
+        make install
+        PGUSER=postgres make installcheck
