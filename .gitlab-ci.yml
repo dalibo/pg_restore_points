@@ -1,0 +1,13 @@
+installcheck:
+  stage: build
+  image: postgres
+  before_script:
+    - mkdir -p $PGDATA
+    - chown postgres $PGDATA
+    - gosu postgres initdb
+    - gosu postgres pg_ctl start
+  script:
+    - apt update -y
+    - apt install -y make
+    - make install
+    - PGUSER=postgres make installcheck
