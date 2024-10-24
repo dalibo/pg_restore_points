@@ -62,3 +62,4 @@ jobs:
           path: |
             *_amd64.deb
             *.x86_64.rpm
+          retention-days: 30  # Conserve les artefacts pendant 30 jours
