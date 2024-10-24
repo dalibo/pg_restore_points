@@ -1,5 +1,3 @@
-Voici la traduction en anglais :
-
 # restore_points
 
 ## Description
