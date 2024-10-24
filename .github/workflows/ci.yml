@@ -39,3 +39,27 @@ jobs:
       run: |
         make install
         PGUSER=postgres make installcheck
+
+  nfpm:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: installcheck
+    steps:
+      - name: Check out the repository to the runner
+        uses: actions/checkout@v4
+      - name: Create restore_points DEB 17 Package
+        uses: docker://goreleaser/nfpm:latest
+        with:
+          args: package --config=./nfpm/17/deb.yaml --target ./restore_points_17_1.5_amd64.deb
+      - name: Create restore_points RPM 17 Package
+        uses: docker://goreleaser/nfpm:latest
+        with:
+          args: package --config=./nfpm/17/rpm.yaml --target ./restore_points_17_1.5.x86_64.rpm
+      - name: Archive Prometheus Package
+        uses: actions/upload-artifact@v3
+        with:
+          name: packages
+          path: |
+            *_amd64.deb
+            *.x86_64.rpm
+          retention-days: 30  # Conserve les artefacts pendant 30 jours

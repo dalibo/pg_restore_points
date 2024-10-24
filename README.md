@@ -1,5 +1,3 @@
-Voici la traduction en anglais :
-
 # restore_points
 
 ## Description
@@ -88,8 +86,9 @@ Here is the "Contributors" section translated to English:
 
 - [Robin Portigliatti](https://www.linkedin.com/in/robin-portigliatti-464838a7/) ;
 - [Guillaume Armede](https://www.linkedin.com/in/guillaume-armede-811304147/) ;
-- [Franck Boudehen](https://www.linkedin.com/in/franck-boudehen-35754b65) ;
-- [Guillaume Lelarge](https://github.com/gleu).
+- [Guillaume Lelarge](https://github.com/gleu) ;
+- [Alexandre Pereira](https://www.linkedin.com/in/alexpereira-5/) ;
+- [Franck Boudehen](https://www.linkedin.com/in/franck-boudehen-35754b65).
 
 
 ### Instructions
