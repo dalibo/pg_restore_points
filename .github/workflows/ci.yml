@@ -16,13 +16,9 @@ jobs:
     services:
       postgres:
         image: postgres:latest
-        options: > 
-          --mount type=tmpfs,destination=/var/lib/postgresql/data
         env:
           POSTGRES_USER: postgres
           POSTGRES_DB: testdb
-        volumes:
-          - /data:/var/lib/postgresql/data
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
