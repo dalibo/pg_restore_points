@@ -45,14 +45,16 @@ jobs:
     if: github.ref == 'refs/heads/main'
     needs: installcheck
     steps:
+      - name: Check out the repository to the runner
+        uses: actions/checkout@v4
       - name: Create restore_points DEB 17 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=17/deb.yaml --target ./restore_points_17_1.5_amd64.deb
+          args: package --config=./nfpm/17/deb.yaml --target ./restore_points_17_1.5_amd64.deb
       - name: Create restore_points RPM 17 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=17/rpm.yaml --target ./restore_points_17_1.5.x86_64.rpm
+          args: package --config=./nfpm/17/rpm.yaml --target ./restore_points_17_1.5.x86_64.rpm
       - name: Archive Prometheus Package
         uses: actions/upload-artifact@v3
         with:
