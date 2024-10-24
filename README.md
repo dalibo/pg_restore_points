@@ -1,8 +1,8 @@
-# restore_points
+# pg_restore_points
 
 ## Description
 
-`restore_points` is a PostgreSQL extension that allows managing restore points in a PostgreSQL instance. It creates a schema, table, sequence, and function to facilitate the management and tracking of restore points.
+`pg_restore_points` is a PostgreSQL extension that allows managing restore points in a PostgreSQL instance. It creates a schema, table, sequence, and function to facilitate the management and tracking of restore points.
 
 ### Features
 
@@ -25,7 +25,7 @@
 2. In PostgreSQL, create the extension:
 
    ```sql
-   CREATE EXTENSION restore_points;
+   CREATE EXTENSION pg_restore_points;
    ```
 
 ### Usage
@@ -51,7 +51,7 @@ SELECT * FROM rspt.restore_points;
 
 ### Restore Point Purging Function
 
-The `restore_points` extension also provides a function to purge restore points older than a specified time interval.
+The `pg_restore_points` extension also provides a function to purge restore points older than a specified time interval.
 
 #### Function `rspt.pg_purge_restore_points`
 

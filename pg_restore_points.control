@@ -1,4 +1,4 @@
-# File restore_points.control
+# File pg_restore_points.control
 comment = 'Extension for managing restore points'
 default_version = '1.5'
 schema = 'rspt'
