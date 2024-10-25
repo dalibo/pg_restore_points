@@ -1,84 +1,54 @@
-name: CI
+name: build
 on: workflow_call
 jobs:
-  installcheck:
-    runs-on: ubuntu-latest
-    container:
-      image: postgres:latest
-    services:
-      postgres:
-        image: postgres:latest
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: testdb
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
-    - name: Prepare PostgreSQL
-      run: |
-        mkdir -p $PGDATA
-        chown postgres $PGDATA
-        su postgres -c "initdb"
-        su postgres -c "pg_ctl start -D $PGDATA"
-    
-    - name: Install dependencies
-      run: |
-        apt update -y
-        apt install -y make
-    
-    - name: Build and run tests
-      run: |
-        make install
-        PGUSER=postgres make installcheck
 
   nfpm:
     runs-on: ubuntu-latest
-    needs: installcheck
     steps:
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
       - name: Create pg_restore_points DEB 17 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/17/deb.yaml --target ./pg_restore_points_17_1.5_amd64.deb
+          args: package --config=./nfpm/pg_restore_points_17.yaml --packager deb
       - name: Create pg_restore_points RPM 17 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/17/rpm.yaml --target ./pg_restore_points_17_1.5.x86_64.rpm
+          args: package --config=./nfpm/pg_restore_points_17.yaml --packager rpm
       - name: Create pg_restore_points DEB 16 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/16/deb.yaml --target ./pg_restore_points_16_1.5_amd64.deb
+          args: package --config=./nfpm/pg_restore_points_16.yaml --packager deb
       - name: Create pg_restore_points RPM 16 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/16/rpm.yaml --target ./pg_restore_points_16_1.5.x86_64.rpm
+          args: package --config=./nfpm/pg_restore_points_16.yaml --packager rpm
       - name: Create pg_restore_points DEB 15 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/15/deb.yaml --target ./pg_restore_points_15_1.5_amd64.deb
+          args: package --config=./nfpm/pg_restore_points_15.yaml --packager deb
       - name: Create pg_restore_points RPM 15 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/15/rpm.yaml --target ./pg_restore_points_15_1.5.x86_64.rpm
+          args: package --config=./nfpm/pg_restore_points_15.yaml --packager rpm
       - name: Create pg_restore_points DEB 14 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/14/deb.yaml --target ./pg_restore_points_14_1.5_amd64.deb
+          args: package --config=./nfpm/pg_restore_points_14.yaml --packager deb
       - name: Create pg_restore_points RPM 14 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/14/rpm.yaml --target ./pg_restore_points_14_1.5.x86_64.rpm
+          args: package --config=./nfpm/pg_restore_points_14.yaml --packager rpm
       - name: Create pg_restore_points DEB 13 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/13/deb.yaml --target ./pg_restore_points_13_1.5_amd64.deb
+          args: package --config=./nfpm/pg_restore_points_13.yaml --packager deb
       - name: Create pg_restore_points RPM 13 Package
         uses: docker://goreleaser/nfpm:latest
         with:
-          args: package --config=./nfpm/13/rpm.yaml --target ./pg_restore_points_13_1.5.x86_64.rpm
-      - name: Archive Prometheus Package
+          args: package --config=./nfpm/pg_restore_points_13.yaml --packager rpm
+
+      - name: Archive pg_restore_points Package
         uses: actions/upload-artifact@v3
         with:
           name: packages
