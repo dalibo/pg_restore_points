@@ -35,7 +35,7 @@
 ##### Debian
 
 ```bash
-export PGRESTOREPOINTSVERSION="1.5"
+export PGRESTOREPOINTSVERSION="1.0"
 export PGVERSION=17
 wget https://github.com/dalibo/pg_restore_points/releases/download/v${PGRESTOREPOINTSVERSION}/pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_adm64.deb
 dpkg -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_adm64.deb
@@ -44,7 +44,7 @@ dpkg -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_adm64.deb
 ##### RedHat
 
 ```bash
-export PGRESTOREPOINTSVERSION="1.5"
+export PGRESTOREPOINTSVERSION="1.0"
 export PGVERSION=17
 wget https://github.com/dalibo/pg_restore_points/releases/download/v${PGRESTOREPOINTSVERSION}/pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}.x86_64.rpm
 rpm -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}.x86_64.rpm
@@ -106,9 +106,9 @@ Here is the "Contributors" section translated to English:
 **Contributors**
 
 - [Robin Portigliatti](https://www.linkedin.com/in/robin-portigliatti-464838a7/) ;
+- [Alexandre Pereira](https://www.linkedin.com/in/alexpereira-5/) ;
 - [Guillaume Armede](https://www.linkedin.com/in/guillaume-armede-811304147/) ;
 - [Guillaume Lelarge](https://github.com/gleu) ;
-- [Alexandre Pereira](https://www.linkedin.com/in/alexpereira-5/) ;
 - [Franck Boudehen](https://www.linkedin.com/in/franck-boudehen-35754b65).
 
 
