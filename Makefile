@@ -1,7 +1,7 @@
 # Makefile
 
 EXTENSION = pg_restore_points
-DATA = pg_restore_points--1.5.sql
+DATA = pg_restore_points--1.0.sql
 DOCS = README.md
 
 # List of SQL test files to run
