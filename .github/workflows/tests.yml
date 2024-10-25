@@ -35,3 +35,80 @@ jobs:
       run: |
         make install
         PGUSER=postgres make installcheck
+
+  deb-pkgs:
+    runs-on: ubuntu-latest
+    needs: build-packages-workflow
+    container:
+      image: postgres:17
+      env:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: testdb
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: packages
+
+    - name: Install dependencies
+      run: |
+        apt update -y
+        apt install -y make
+
+    - name: Prepare PostgreSQL
+      run: |
+        mkdir -p $PGDATA
+        chown postgres $PGDATA
+        su postgres -c "initdb"
+        su postgres -c "pg_ctl start -D $PGDATA"
+
+    - name: Install DEB package
+      run: dpkg -i pg_restore_points_17_*_amd64.deb 
+
+    - name: Run extension test 
+      run: PGUSER=postgres make installcheck
+
+  rpm-packages:
+    runs-on: ubuntu-latest
+    needs: build-packages-workflow
+    container:
+      image: rockylinux:8
+      options: --cpus 1
+    env: 
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/pgsql-17/bin
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Download Artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: packages
+
+    - name: Install dependencies
+      run: |
+        dnf install -y make
+        dnf install -y epel-release
+        /usr/bin/crb enable
+
+    - name: Install PostgreSQL 
+      run: |
+        dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
+        dnf -qy module disable postgresql && \
+        dnf install -y postgresql17-server postgresql17-devel 
+
+    - name: Prepare PostgreSQL
+      run: |
+        mkdir -p /var/lib/pgsql/17/data
+        chown postgres /var/lib/pgsql/17/data
+        su postgres -c "/usr/pgsql-17/bin/initdb -D /var/lib/pgsql/17/data"
+        su postgres -c "/usr/pgsql-17/bin/pg_ctl start -D /var/lib/pgsql/17/data"
+
+    - name: Install RPM package
+      run: dnf localinstall -y  pg_restore_points_17-*.x86_64.rpm  
+
+    - name: Run extension test 
+      run: PGUSER=postgres make installcheck
