@@ -1,4 +1,3 @@
 # File pg_restore_points.control
 comment = 'Extension for managing restore points'
 default_version = '1.0'
-schema = 'rspt'

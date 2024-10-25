@@ -1,5 +1,5 @@
 -- Creation of the table to track restore points
-CREATE TABLE rspt.restore_points (
+CREATE TABLE restore_points (
     id serial PRIMARY KEY,
     restore_point_name text NOT NULL,
     point_time timestamp with time zone DEFAULT now(),
@@ -8,7 +8,7 @@ CREATE TABLE rspt.restore_points (
 );
 
 -- Creation of the enumerated type
-CREATE TYPE rspt.restore_point_mode
+CREATE TYPE restore_point_mode
 AS
 ENUM
 (
@@ -18,7 +18,7 @@ ENUM
 );
 
 -- Creation of the PL/pgSQL function to manage restore points
-CREATE OR REPLACE FUNCTION rspt.pg_create_restore_point(p_restore_point_name text, p_mode rspt.restore_point_mode DEFAULT 'NOSTRICT') RETURNS bool AS $body$
+CREATE OR REPLACE FUNCTION pg_extend_create_restore_point(p_restore_point_name text, p_mode restore_point_mode DEFAULT 'NOSTRICT') RETURNS bool AS $body$
 DECLARE
     lsn pg_lsn;
     walfile_name text;
@@ -34,7 +34,7 @@ BEGIN
         -- Check if the restore_point_name and walfile pair already exists
         walfile_name := pg_catalog.pg_walfile_name(pg_catalog.pg_current_wal_lsn());
         SELECT COUNT(1) INTO existing_count
-        FROM rspt.restore_points
+        FROM restore_points
         WHERE restore_point_name = p_restore_point_name AND walfile = walfile_name;
 
         -- If they exist RAISE an exception
@@ -45,7 +45,7 @@ BEGIN
     ELSIF p_mode = 'USTRICT' THEN
         -- Check if only the restore_point_name already exists
         SELECT COUNT(1) INTO existing_count
-        FROM rspt.restore_points
+        FROM restore_points
         WHERE restore_point_name = p_restore_point_name;
         
         -- If it exists RAISE an exception
@@ -61,27 +61,27 @@ BEGIN
     walfile_name := pg_catalog.pg_walfile_name(lsn);
 
     -- Insert the restore point information into the table
-    INSERT INTO rspt.restore_points (restore_point_name, lsn, walfile)
+    INSERT INTO restore_points (restore_point_name, lsn, walfile)
     VALUES (p_restore_point_name, lsn, walfile_name);
 
     RETURN true;
 
 EXCEPTION
     WHEN OTHERS THEN
-        RAISE WARNING 'Error in pg_create_restore_point: %', SQLERRM;
+        RAISE WARNING 'Error in pg_extend_create_restore_point: %', SQLERRM;
         RETURN false;
 END;
 $body$ LANGUAGE plpgsql;
 
 -- Function to purge restore points older than a specified interval
-CREATE OR REPLACE FUNCTION rspt.pg_purge_restore_points(interval_param INTERVAL) RETURNS TABLE 
+CREATE OR REPLACE FUNCTION pg_purge_restore_points(interval_param INTERVAL) RETURNS TABLE 
 ( point_name text , 
   with_point_time timestamp with time zone, 
   in_walfile text )
  AS $$
 BEGIN
     -- Delete restore points older than the specified interva
-    RETURN QUERY DELETE FROM rspt.restore_points
+    RETURN QUERY DELETE FROM restore_points
     WHERE point_time < NOW() - interval_param 
     RETURNING restore_point_name,point_time,walfile ; 
 
