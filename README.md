@@ -7,7 +7,7 @@
 ### Features
 
 - **Restore Point Management**: Creates and logs restore points in a dedicated table.
-- **PL/pgSQL Function**: The `rspt.pg_create_restore_point` function creates a restore point using `pg_create_restore_point()` and logs the information in the `rspt.restore_points` table. It supports different validation modes.
+- **PL/pgSQL Function**: The `pg_extend_create_restore_point` function creates a restore point using `pg_extend_create_restore_point()` and logs the information in the `restore_points` table. It supports different validation modes.
 - **Creation Modes**:
   - `NOSTRICT`: Creates the restore point without any prior validation.
   - `STRICT`: Ensures that the combination of `restore_point_name` and `walfile` does not already exist.
@@ -53,13 +53,13 @@ rpm -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}.x86_64.rpm
 
 ```sql
 -- Create a restore point (by default with NOSTRICT mode)
-SELECT rspt.pg_create_restore_point('backup_2024_10_22');
+SELECT pg_extend_create_restore_point('backup_2024_10_22');
 
 -- Create a restore point with STRICT mode
-SELECT rspt.pg_create_restore_point('backup_2024_10_22', 'STRICT');
+SELECT pg_extend_create_restore_point('backup_2024_10_22', 'STRICT');
 
 -- View existing restore points
-SELECT * FROM rspt.restore_points;
+SELECT * FROM restore_points;
 ```
 
 ### `restore_points` Table Structure
@@ -74,14 +74,14 @@ SELECT * FROM rspt.restore_points;
 
 The `pg_restore_points` extension also provides a function to purge restore points older than a specified time interval.
 
-#### Function `rspt.pg_purge_restore_points`
+#### Function `pg_purge_restore_points`
 
 The `purge_restore_points(interval_param INTERVAL)` function allows deleting restore points based on a specified interval. This is useful for managing old restore points and avoiding the accumulation of unnecessary data.
 
 #### Syntax
 
 ```sql
-SELECT rspt.pg_purge_restore_points('interval_value');
+SELECT pg_purge_restore_points('interval_value');
 ```
 
 - **interval_value**: The time interval (e.g., `'1 month'`, `'2 days'`, `'6 hours'`, etc.) for which restore points older than this value will be deleted.
@@ -90,11 +90,11 @@ SELECT rspt.pg_purge_restore_points('interval_value');
 
 ```sql
 -- Deletes all restore points older than one month
-SELECT rspt.pg_purge_restore_points('1 month');
+SELECT pg_purge_restore_points('1 month');
 ```
 
 #### Technical Details:
-- The function uses the `point_time` column of the `rspt.restore_points` table to determine which records to delete.
+- The function uses the `point_time` column of the `restore_points` table to determine which records to delete.
 - A `NOTICE` message is returned indicating that the purge was successful.
 
 ### Authors

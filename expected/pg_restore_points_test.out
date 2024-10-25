@@ -1,65 +1,65 @@
 -- Load the extension
 CREATE EXTENSION IF NOT EXISTS pg_restore_points;
 -- Test: Create a restore point with NOSTRICT mode
-SELECT rspt.pg_create_restore_point('test_point_nostrict') = true;
+SELECT pg_extend_create_restore_point('test_point_nostrict') = true;
  ?column? 
 ----------
  t
 (1 row)
 
 -- Test: Create a restore point with NOSTRICT mode
-SELECT rspt.pg_create_restore_point('test_point_nostrict') = true;
+SELECT pg_extend_create_restore_point('test_point_nostrict') = true;
  ?column? 
 ----------
  t
 (1 row)
 
 -- Test: Check the addition in the table
-SELECT COUNT(1) = 2 FROM rspt.restore_points WHERE restore_point_name = 'test_point_nostrict';
+SELECT COUNT(1) = 2 FROM restore_points WHERE restore_point_name = 'test_point_nostrict';
  ?column? 
 ----------
  t
 (1 row)
 
 -- Test: Create a restore point with STRICT mode
-SELECT rspt.pg_create_restore_point('test_point_strict', 'STRICT') = true;
+SELECT pg_extend_create_restore_point('test_point_strict', 'STRICT') = true;
  ?column? 
 ----------
  t
 (1 row)
 
 -- Test: Create a second restore point with STRICT mode and the same WAL
-SELECT rspt.pg_create_restore_point('test_point_strict', 'STRICT') = false;
-WARNING:  Error in pg_create_restore_point: A restore point with the name test_point_strict and the same WAL file already exists
+SELECT pg_extend_create_restore_point('test_point_strict', 'STRICT') = false;
+WARNING:  Error in pg_extend_create_restore_point: A restore point with the name test_point_strict and the same WAL file already exists
  ?column? 
 ----------
  t
 (1 row)
 
 -- Test: Check the addition in the table
-SELECT COUNT(1) = 1 FROM rspt.restore_points WHERE restore_point_name = 'test_point_strict';
+SELECT COUNT(1) = 1 FROM restore_points WHERE restore_point_name = 'test_point_strict';
  ?column? 
 ----------
  t
 (1 row)
 
 -- Test: Create a restore point with STRICT mode
-SELECT rspt.pg_create_restore_point('test_point_ustrict', 'USTRICT') = true;
+SELECT pg_extend_create_restore_point('test_point_ustrict', 'USTRICT') = true;
  ?column? 
 ----------
  t
 (1 row)
 
 -- Test: Create a second restore point with STRICT mode and the same WAL
-SELECT rspt.pg_create_restore_point('test_point_ustrict', 'USTRICT') = false;
-WARNING:  Error in pg_create_restore_point: A restore point with the name test_point_ustrict already exists
+SELECT pg_extend_create_restore_point('test_point_ustrict', 'USTRICT') = false;
+WARNING:  Error in pg_extend_create_restore_point: A restore point with the name test_point_ustrict already exists
  ?column? 
 ----------
  t
 (1 row)
 
 -- Test: Check the addition in the table
-SELECT COUNT(1) = 1 FROM rspt.restore_points WHERE restore_point_name = 'test_point_strict';
+SELECT COUNT(1) = 1 FROM restore_points WHERE restore_point_name = 'test_point_strict';
  ?column? 
 ----------
  t
@@ -73,14 +73,14 @@ SELECT pg_sleep(5);
 (1 row)
 
 -- Test: Purge restore points older than one day
-SELECT COUNT(1) = 4 FROM rspt.pg_purge_restore_points('1 second');
+SELECT COUNT(1) = 4 FROM pg_purge_restore_points('1 second');
  ?column? 
 ----------
  t
 (1 row)
 
 -- Test: Check the content after the purge
-SELECT * FROM rspt.restore_points;
+SELECT * FROM restore_points;
  id | restore_point_name | point_time | lsn | walfile 
 ----+--------------------+------------+-----+---------
 (0 rows)

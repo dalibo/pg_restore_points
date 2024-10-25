@@ -6,6 +6,7 @@ WAL_DIR="/tmp/pg_wal"
 # Connection to PostgreSQL
 PGDATABASE="postgres"
 PGUSER="postgres"
+PGSCHEMA="public"
 
 # Temporary file to store the restore points found in WAL files
 TEMP_FILE=$(mktemp)
@@ -39,7 +40,7 @@ if [[ -s "$TEMP_FILE" ]]; then
 
     # Execute the SQL delete query
     psql -d "$PGDATABASE" -U "$PGUSER" -c "
-        DELETE FROM rspt.restore_points
+        DELETE FROM ${PGSCHEMA}.restore_points
         WHERE (restore_point_name, walfile) NOT IN (
             SELECT * FROM (VALUES $sql_values) AS t(restore_point_name, walfile)
         );
