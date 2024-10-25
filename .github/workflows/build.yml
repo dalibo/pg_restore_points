@@ -34,7 +34,6 @@ jobs:
 
   nfpm:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     needs: installcheck
     steps:
       - name: Check out the repository to the runner
@@ -86,4 +85,4 @@ jobs:
           path: |
             *_amd64.deb
             *.x86_64.rpm
-          retention-days: 7
+          retention-days: 1
