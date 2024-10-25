@@ -7,7 +7,7 @@
 ### Features
 
 - **Restore Point Management**: Creates and logs restore points in a dedicated table.
-- **PL/pgSQL Function**: The `pg_extend_create_restore_point` function creates a restore point using `pg_extend_create_restore_point()` and logs the information in the `restore_points` table. It supports different validation modes.
+- **PL/pgSQL Function**: The `pg_extend_create_restore_point` function creates a restore point using `pg_create_restore_point()` and logs the information in the `restore_points` table. It supports different validation modes.
 - **Creation Modes**:
   - `NOSTRICT`: Creates the restore point without any prior validation.
   - `STRICT`: Ensures that the combination of `restore_point_name` and `walfile` does not already exist.
@@ -35,7 +35,7 @@
 ##### Debian
 
 ```bash
-export PGRESTOREPOINTSVERSION="1.0"
+export PGRESTOREPOINTSVERSION="1.0.0"
 export PGVERSION=17
 wget https://github.com/dalibo/pg_restore_points/releases/download/v${PGRESTOREPOINTSVERSION}/pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_amd64.deb
 dpkg -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_amd64.deb
@@ -44,10 +44,10 @@ dpkg -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_amd64.deb
 ##### RedHat
 
 ```bash
-export PGRESTOREPOINTSVERSION="1.0"
+export PGRESTOREPOINTSVERSION="1.0.0"
 export PGVERSION=17
-wget https://github.com/dalibo/pg_restore_points/releases/download/v${PGRESTOREPOINTSVERSION}/pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}.x86_64.rpm
-rpm -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}.x86_64.rpm
+wget https://github.com/dalibo/pg_restore_points/releases/download/v${PGRESTOREPOINTSVERSION}/pg_restore_points_${PGVERSION}-${PGRESTOREPOINTSVERSION}-1.x86_64.rpm
+rpm -i pg_restore_points_${PGVERSION}-${PGRESTOREPOINTSVERSION}-1.x86_64.rpm
 ```
 ### Usage
 
