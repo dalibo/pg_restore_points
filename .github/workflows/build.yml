@@ -1,13 +1,5 @@
 name: CI
-
-on:
-  push:
-    branches:
-      - '**'
-  pull_request:
-    branches:
-      - '**'
-
+on: workflow_call
 jobs:
   installcheck:
     runs-on: ubuntu-latest

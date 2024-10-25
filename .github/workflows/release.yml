@@ -6,7 +6,7 @@ on:
       - v*
 jobs:
   build-packages-workflow:
-    uses: ./.github/workflows/ci.yml
+    uses: ./.github/workflows/build.yml
 
   release:
     runs-on: ubuntu-latest
