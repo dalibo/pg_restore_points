@@ -87,11 +87,11 @@ jobs:
         uses: docker://goreleaser/nfpm:latest
         with:
           args: package --config=./nfpm/13/rpm.yaml --target ./restore_points_13_1.5.x86_64.rpm
-      - name: Archive Prometheus Package
-        uses: actions/upload-artifact@v3
+
+      - name: Upload to release
+        uses: pyTooling/Actions/releaser@r0
         with:
-          name: packages
-          path: |
-            *_amd64.deb
-            *.x86_64.rpm
-          retention-days: 30  # Conserve les artefacts pendant 30 jours
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            *.deb
+            *.rpm
