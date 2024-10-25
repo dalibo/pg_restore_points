@@ -1,11 +1,7 @@
-# nfpm example configuration file
-#
-# check https://nfpm.goreleaser.com/configuration for detailed usage
-#
 name: "pg_restore_points_17"
 arch: "amd64"
 platform: "linux"
-version: "v1.5"
+version: "v1.0"
 section: "database"
 priority: "optional"
 provides:
@@ -16,11 +12,27 @@ description: |
 homepage: "https://dalibo.com/"
 license: "Apache License 2.0"
 contents:
-  - src: ./pg_restore_points--1.5.sql
-    dst: /usr/pgsql-17/share/extension/pg_restore_points--1.5.sql
+  - src: ./pg_restore_points--1.0.sql
+    dst: /usr/share/postgresql/17/extension/pg_restore_points--1.0.sql
     file_info:
       mode: 0644
+      owner: postgres
+      group: postgres
+    packager: deb
+  - src: ./pg_restore_points.control
+    dst: /usr/share/postgresql/17/extension/pg_restore_points.control
+    file_info:
+      mode: 0644
+      owner: postgres
+      group: postgres
+    packager: deb
+  - src: ./pg_restore_points--1.0.sql
+    dst: /usr/pgsql-17/share/extension/pg_restore_points--1.0.sql
+    file_info:
+      mode: 0644
+    packager: rpm
   - src: ./pg_restore_points.control
     dst: /usr/pgsql-17/share/extension/pg_restore_points.control
     file_info:
       mode: 0644
+    packager: rpm
