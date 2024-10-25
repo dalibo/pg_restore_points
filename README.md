@@ -37,8 +37,8 @@
 ```bash
 export PGRESTOREPOINTSVERSION="1.0"
 export PGVERSION=17
-wget https://github.com/dalibo/pg_restore_points/releases/download/v${PGRESTOREPOINTSVERSION}/pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_adm64.deb
-dpkg -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_adm64.deb
+wget https://github.com/dalibo/pg_restore_points/releases/download/v${PGRESTOREPOINTSVERSION}/pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_amd64.deb
+dpkg -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_amd64.deb
 ```
 
 ##### RedHat
