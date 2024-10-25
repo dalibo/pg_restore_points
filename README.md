@@ -16,6 +16,8 @@
 
 ### Installation
 
+#### From source
+
 1. Compile and install the extension with `make`:
 
    ```bash
@@ -28,6 +30,25 @@
    CREATE EXTENSION pg_restore_points;
    ```
 
+#### From package
+
+##### Debian
+
+```bash
+export PGRESTOREPOINTSVERSION="1.5"
+export PGVERSION=17
+wget https://github.com/dalibo/pg_restore_points/releases/download/v${PGRESTOREPOINTSVERSION}/pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_adm64.deb
+dpkg -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}_adm64.deb
+```
+
+##### RedHat
+
+```bash
+export PGRESTOREPOINTSVERSION="1.5"
+export PGVERSION=17
+wget https://github.com/dalibo/pg_restore_points/releases/download/v${PGRESTOREPOINTSVERSION}/pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}.x86_64.rpm
+rpm -i pg_restore_points_${PGVERSION}_${PGRESTOREPOINTSVERSION}.x86_64.rpm
+```
 ### Usage
 
 ```sql
