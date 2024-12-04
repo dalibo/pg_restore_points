@@ -101,8 +101,6 @@ SELECT pg_purge_restore_points('1 month');
 
 Extension developed by Dalibo, 2024.
 
-Here is the "Contributors" section translated to English:
-
 **Contributors**
 
 - [Robin Portigliatti](https://www.linkedin.com/in/robin-portigliatti-464838a7/) ;
